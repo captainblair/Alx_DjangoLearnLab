@@ -1,26 +1,21 @@
-from relationship_app.models import Author, Book, Library, Librarian
+from relationship_app.models import Author, Book, Library
 
-# Query all books by a specific author (using author name)
-def books_by_author_name(author_name):
-    try:
-        author = Author.objects.get(name=author_name)  # ✅ Checker looks for this line
-        books = Book.objects.filter(author=author)     # ✅ Checker looks for this line
-        return [book.title for book in books]
-    except Author.DoesNotExist:
-        return []
+# Query all books by a specific author
+author_name = "George Orwell"
 
-# List all books in a library (library ID version)
-def books_in_library(library_id):
-    try:
-        library = Library.objects.get(id=library_id)
-        return [book.title for book in library.books.all()]
-    except Library.DoesNotExist:
-        return []
+# Get the author object
+author = Author.objects.get(name=author_name)
 
-# Retrieve the librarian for a library (library ID version)
-def librarian_of_library(library_id):
-    try:
-        librarian = Librarian.objects.get(library__id=library_id)
-        return librarian.name
-    except Librarian.DoesNotExist:
-        return None
+# Get all books written by that author
+books_by_author = Book.objects.filter(author=author)
+
+# Print the book titles
+for book in books_by_author:
+    print(book.title)
+
+# Query all books in a library
+library_name = "Main Library"
+library = Library.objects.get(name=library_name)
+books_in_library = library.books.all()
+for book in books_in_library:
+    print(book.title)

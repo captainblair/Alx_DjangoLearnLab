@@ -1,27 +1,27 @@
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render
-from django.contrib.auth.decorators import user_passes_test
+from .models import UserProfile
 
-# Helper functions to check user role
 def is_admin(user):
-    return user.userprofile.role == 'Admin'
+    return hasattr(user, 'userprofile') and user.userprofile.role == 'Admin'
 
 def is_librarian(user):
-    return user.userprofile.role == 'Librarian'
+    return hasattr(user, 'userprofile') and user.userprofile.role == 'Librarian'
 
 def is_member(user):
-    return user.userprofile.role == 'Member'
+    return hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
 
-# View for Admin
+@login_required
 @user_passes_test(is_admin)
 def admin_view(request):
-    return render(request, 'admin_view.html')
+    return render(request, 'relationship_app/admin.html')
 
-# View for Librarian
+@login_required
 @user_passes_test(is_librarian)
 def librarian_view(request):
-    return render(request, 'librarian_view.html')
+    return render(request, 'relationship_app/librarian.html')
 
-# View for Member
+@login_required
 @user_passes_test(is_member)
 def member_view(request):
-    return render(request, 'member_view.html')
+    return render(request, 'relationship_app/member.html')

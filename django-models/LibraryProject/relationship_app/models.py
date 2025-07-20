@@ -7,19 +7,20 @@ class Book(models.Model):
     description = models.TextField()
     isbn = models.CharField(max_length=13, unique=True)
 
+    class Meta:
+        permissions = [
+            ("canaddbook", "Can add book"),
+            ("canchangebook", "Can change book"),
+            ("candeletebook", "Can delete book"),
+        ]
+
     def __str__(self):
         return self.title
 
-
 class UserProfile(models.Model):
-    ROLE_CHOICES = [
-        ('admin', 'Admin'),
-        ('librarian', 'Librarian'),
-        ('member', 'Member'),
-    ]
-
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    bio = models.TextField(blank=True)
+    location = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.role}"
+        return f"{self.user.username}'s profile"

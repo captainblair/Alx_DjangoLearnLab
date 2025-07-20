@@ -1,8 +1,5 @@
-from django.apps import AppConfig  # 💥 You were missing this import
+from django.apps import AppConfig
 
-class RelationshipAppConfig(AppConfig):
+class RelationshipAppConfig(AppConfig):  # ✅ Can be named anything
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'relationship_app'  # ✅ Must match your folder name
-
-    def ready(self):
-        import relationship_app.signals  # ✅ Keep it aligned
+    name = 'relationship_app'  # ✅ MUST match the folder name

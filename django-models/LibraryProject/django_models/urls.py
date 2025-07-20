@@ -19,7 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('relationship_app.urls')),  # this line matters!
+    path('', include('relationship_app.urls')),  # ✅ This should match your actual app folder
 ]
+
 
 

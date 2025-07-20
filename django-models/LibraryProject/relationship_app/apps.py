@@ -1,5 +1,8 @@
 from django.apps import AppConfig
 
-class RelationshipAppConfig(AppConfig):  # ✅ Can be named anything
+class RelationshipAppConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'relationship_app'  # ✅ MUST match the folder name
+    name = 'relationship_app'
+
+    def ready(self):
+        import relationship_app.signals  # For creating UserProfile on User creation

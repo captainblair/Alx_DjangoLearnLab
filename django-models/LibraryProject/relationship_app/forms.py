@@ -4,4 +4,4 @@ from .models import Book
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['title', 'author', 'description', 'isbn']  # ✅ Only use existing fields
+        fields = ['title', 'author', 'published_date', 'library']  # ✅ Only fields that exist!

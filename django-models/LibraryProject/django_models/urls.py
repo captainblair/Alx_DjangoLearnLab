@@ -17,13 +17,12 @@ Including another URLconf
 # django_models/LibraryProject/urls.py
 
 from django.contrib import admin
-from django.urls import path, include  # ✅ include needed
+from django.urls import path, include
 
 urlpatterns = [
-    path('', include('relationship_app.urls')),  # ✅ updated to match the correct app
     path('admin/', admin.site.urls),
+    path('', include('relationship_app.urls')),
 ]
-
 
 
 

@@ -1,39 +1,31 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Book
-from .forms import BookForm
-from django.contrib.auth.decorators import permission_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required, permission_required
+from .models import Book, Library
 
-def book_list(request):
+@login_required
+def list_books(request):
     books = Book.objects.all()
-    return render(request, 'relationship_app/book_list.html', {'books': books})
+    return render(request, 'books.html', {'books': books})
 
-@permission_required('relationship_app.canaddbook', raise_exception=True)
+@permission_required('relationship_app.can_add_book', raise_exception=True)
 def add_book(request):
-    if request.method == 'POST':
-        form = BookForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('book_list')
-    else:
-        form = BookForm()
-    return render(request, 'relationship_app/book_form.html', {'form': form})
+    # Dummy logic for simplicity
+    return render(request, 'add_book.html')
 
-@permission_required('relationship_app.canchangebook', raise_exception=True)
+@permission_required('relationship_app.can_change_book', raise_exception=True)
 def edit_book(request, pk):
+    # Dummy logic for simplicity
     book = get_object_or_404(Book, pk=pk)
-    if request.method == 'POST':
-        form = BookForm(request.POST, instance=book)
-        if form.is_valid():
-            form.save()
-            return redirect('book_list')
-    else:
-        form = BookForm(instance=book)
-    return render(request, 'relationship_app/book_form.html', {'form': form})
+    return render(request, 'edit_book.html', {'book': book})
 
-@permission_required('relationship_app.candeletebook', raise_exception=True)
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
 def delete_book(request, pk):
+    # Dummy logic for simplicity
     book = get_object_or_404(Book, pk=pk)
-    if request.method == 'POST':
-        book.delete()
-        return redirect('book_list')
-    return render(request, 'relationship_app/book_confirm_delete.html', {'book': book})
+    return render(request, 'delete_book.html', {'book': book})
+
+from django.views.generic import DetailView
+
+class LibraryDetailView(DetailView):
+    model = Library
+    template_name = 'library_detail.html'

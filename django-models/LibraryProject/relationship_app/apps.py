@@ -5,4 +5,4 @@ class RelationshipAppConfig(AppConfig):
     name = 'relationship_app'
 
     def ready(self):
-        import relationship_app.signals  # For creating UserProfile on User creation
+        import relationship_app.signals

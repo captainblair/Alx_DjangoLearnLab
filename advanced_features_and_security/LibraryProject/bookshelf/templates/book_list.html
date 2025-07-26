@@ -1,11 +1,11 @@
-<!-- book_list.html -->
+<!-- templates/bookshelf/book_list.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Book List</title>
 </head>
 <body>
-    <h1>All Books</h1>
+    <h1>Available Books</h1>
     <ul>
         {% for book in books %}
             <li>{{ book.title }} by {{ book.author }} ({{ book.published_year }})</li>

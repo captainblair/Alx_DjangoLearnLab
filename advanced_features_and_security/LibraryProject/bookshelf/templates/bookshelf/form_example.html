@@ -1,11 +1,11 @@
-<!-- form_example.html -->
+<!-- templates/bookshelf/form_example.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Example Form</title>
 </head>
 <body>
-    <h1>Book Form</h1>
+    <h1>Submit Your Info</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}

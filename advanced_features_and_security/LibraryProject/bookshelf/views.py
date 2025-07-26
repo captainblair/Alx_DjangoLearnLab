@@ -1,10 +1,8 @@
+from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
-from django.http import HttpResponse
+from .models import Book
 
-@permission_required('bookshelf.can_create')
-def create_book(request):
-    return HttpResponse("Book created")
-
-@permission_required('bookshelf.can_delete')
-def delete_book(request):
-    return HttpResponse("Book deleted")
+@permission_required('bookshelf.can_create', raise_exception=True)
+def book_list(request):
+    books = Book.objects.all()
+    return render(request, 'bookshelf/book_list.html', {'books': books})

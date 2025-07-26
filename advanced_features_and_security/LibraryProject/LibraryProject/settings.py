@@ -66,7 +66,8 @@ ROOT_URLCONF = 'LibraryProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'relationship_app', 'templates')],
+        'DIRS': [],  # Let Django look in the default app templates
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

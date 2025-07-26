@@ -11,3 +11,10 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = ('username', 'email', 'date_of_birth', 'profile_photo', 'is_active', 'is_staff')
+
+
+class ExampleForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title', 'author', 'published_year']
+

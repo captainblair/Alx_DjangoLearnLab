@@ -6,10 +6,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'your-strong-secret-key-here'
+DEBUG = False
 
-DEBUG = True  # For local development only
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+# Optional HSTS headers
+SECURE_HSTS_SECONDS = 15552000  # ~180 days
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']  # adjust for production
 
 
 # ==============================================

@@ -16,9 +16,15 @@ SESSION_COOKIE_SECURE = True
 SECURE_SSL_REDIRECT = True
 
 # Optional HSTS headers
-SECURE_HSTS_SECONDS = 15552000  # ~180 days
+SECURE_SSL_REDIRECT = True  # Redirect all HTTP to HTTPS
+SECURE_HSTS_SECONDS = 31536000  # ~180 days
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
+
+# Send cookies only over HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']  # adjust for production
 
@@ -148,3 +154,6 @@ LOGIN_URL = '/login/'            # Redirect to this when login is required
 #               DEFAULT PRIMARY KEY
 # ==============================================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+

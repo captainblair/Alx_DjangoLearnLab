@@ -6,43 +6,67 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('relationship_app', '0001_initial'),
+        ("relationship_app", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='book',
-            name='author',
+            model_name="book",
+            name="author",
         ),
         migrations.RemoveField(
-            model_name='library',
-            name='books',
+            model_name="library",
+            name="books",
         ),
         migrations.RemoveField(
-            model_name='librarian',
-            name='library',
+            model_name="librarian",
+            name="library",
         ),
         migrations.CreateModel(
-            name='UserProfile',
+            name="UserProfile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('role', models.CharField(choices=[('Admin', 'Admin'), ('Librarian', 'Librarian'), ('Member', 'Member')], default='Member', max_length=20)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "role",
+                    models.CharField(
+                        choices=[
+                            ("Admin", "Admin"),
+                            ("Librarian", "Librarian"),
+                            ("Member", "Member"),
+                        ],
+                        default="Member",
+                        max_length=20,
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.DeleteModel(
-            name='Author',
+            name="Author",
         ),
         migrations.DeleteModel(
-            name='Book',
+            name="Book",
         ),
         migrations.DeleteModel(
-            name='Librarian',
+            name="Librarian",
         ),
         migrations.DeleteModel(
-            name='Library',
+            name="Library",
         ),
     ]

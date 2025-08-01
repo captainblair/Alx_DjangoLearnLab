@@ -3,10 +3,10 @@ import sys
 import django
 
 # 🔧 Add project root to the Python path
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../')
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../")
 
 # 🔧 Set Django settings module
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LibraryProject.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "LibraryProject.settings")
 
 # 🔧 Setup Django
 django.setup()
@@ -18,9 +18,9 @@ author_name = "Chinua Achebe"
 try:
     author = Author.objects.get(name=author_name)
     books_by_author = author.books.all()
-    
+
     books_by_author_explicit = Book.objects.filter(author=author)
-    
+
     print(f"\nBooks by {author_name}:")
     for book in books_by_author:
         print(f"- {book.title}")
@@ -41,7 +41,9 @@ except Library.DoesNotExist:
 
 # Query 3: Retrieve the librarian for a library
 try:
-    librarian_check = Librarian.objects.get(library=library)  # ✅ Required by ALX checker
+    librarian_check = Librarian.objects.get(
+        library=library
+    )  # ✅ Required by ALX checker
     librarian = library.librarian
     print(f"\nLibrarian of {library_name}: {librarian.name}")
 except Librarian.DoesNotExist:

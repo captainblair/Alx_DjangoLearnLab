@@ -4,22 +4,32 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bookshelf', '0005_delete_book_alter_customuser_managers'),
+        ("bookshelf", "0005_delete_book_alter_customuser_managers"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Book',
+            name="Book",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=100)),
-                ('author', models.CharField(max_length=100)),
-                ('published_year', models.IntegerField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=100)),
+                ("author", models.CharField(max_length=100)),
+                ("published_year", models.IntegerField()),
             ],
             options={
-                'permissions': [('can_create', 'Can create book'), ('can_delete', 'Can delete book')],
+                "permissions": [
+                    ("can_create", "Can create book"),
+                    ("can_delete", "Can delete book"),
+                ],
             },
         ),
     ]

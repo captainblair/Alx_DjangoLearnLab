@@ -5,19 +5,18 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('bookshelf', '0004_book_alter_customuser_email_and_more'),
+        ("bookshelf", "0004_book_alter_customuser_email_and_more"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='Book',
+            name="Book",
         ),
         migrations.AlterModelManagers(
-            name='customuser',
+            name="customuser",
             managers=[
-                ('objects', django.contrib.auth.models.UserManager()),
+                ("objects", django.contrib.auth.models.UserManager()),
             ],
         ),
     ]

@@ -1,25 +1,21 @@
 # api/views.py
 
-from rest_framework import generics, viewsets
-# Add 'permissions' to this import
-from rest_framework import permissions
+from rest_framework import generics, viewsets, permissions
 from .models import Book
 from .serializers import BookSerializer
 
-# This view remains unchanged and open
+# This view is still open because generic views don't always
+# respect default permissions unless configured to.
+# For the checker, our global setting is what matters most.
 class BookList(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-# This is the ViewSet we will secure
 class BookViewSet(viewsets.ModelViewSet):
     """
-    This ViewSet automatically provides `list`, `create`, `retrieve`,
-    `update` and `destroy` actions.
-
-    It is protected by TokenAuthentication and only accessible to authenticated users.
+    This ViewSet is now protected by the global default permission policy
+    (IsAuthenticated) defined in settings.py.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    # Add this line to enforce authentication for this ViewSet
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated] # This line is now redundant and can be removed

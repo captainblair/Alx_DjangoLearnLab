@@ -18,13 +18,13 @@ Including another URLconf
 
 # api_project/urls.py
 
+# api_project/urls.py
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.authtoken.views import obtain_auth_token # Import this view
+from rest_framework.authtoken.views import obtain_auth_token # This import must be present
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    # Add this line for the token authentication endpoint
-    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'), # This path must be present
 ]

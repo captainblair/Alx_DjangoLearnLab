@@ -1,23 +1,25 @@
 # api/views.py
 
-# Add 'viewsets' to this import
 from rest_framework import generics, viewsets
+# Add 'permissions' to this import
+from rest_framework import permissions
 from .models import Book
 from .serializers import BookSerializer
 
-# This is the old view from the previous task
+# This view remains unchanged and open
 class BookList(generics.ListAPIView):
-    """
-    API view to retrieve a list of all books.
-    """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-# Add this new ViewSet
+# This is the ViewSet we will secure
 class BookViewSet(viewsets.ModelViewSet):
     """
-    A ViewSet for viewing and editing book instances.
-    Provides `list`, `create`, `retrieve`, `update`, and `destroy` actions.
+    This ViewSet automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+
+    It is protected by TokenAuthentication and only accessible to authenticated users.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    # Add this line to enforce authentication for this ViewSet
+    permission_classes = [permissions.IsAuthenticated]

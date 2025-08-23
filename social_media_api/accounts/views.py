@@ -1,43 +1,20 @@
-from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
-from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from .serializers import UserMiniSerializer
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.models import User
+from django.http import HttpResponseForbidden
 
-User = get_user_model()
+@login_required
+def follow_user(request, username):
+    user_to_follow = get_object_or_404(User, username=username)
+    if request.user == user_to_follow:
+        return HttpResponseForbidden("You cannot follow yourself.")
+    request.user.profile.following.add(user_to_follow.profile)
+    return redirect('profile', username=username)
 
-class FollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, user_id):
-        target = get_object_or_404(User, id=user_id)
-        if target == request.user:
-            return Response({"detail": "You cannot follow yourself."}, status=status.HTTP_400_BAD_REQUEST)
-        request.user.following.add(target)
-        return Response({"detail": f"You are now following {target.username}."}, status=status.HTTP_200_OK)
-
-class UnfollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, user_id):
-        target = get_object_or_404(User, id=user_id)
-        request.user.following.remove(target)
-        return Response({"detail": f"You unfollowed {target.username}."}, status=status.HTTP_200_OK)
-
-class FollowingListView(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = UserMiniSerializer
-
-    def get_queryset(self):
-        # list of users current user is following
-        return self.request.user.following.all()
-
-class FollowersListView(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = UserMiniSerializer
-
-    def get_queryset(self):
-        # list of users who follow current user
-        return self.request.user.followers.all()
+@login_required
+def unfollow_user(request, username):
+    user_to_unfollow = get_object_or_404(User, username=username)
+    if request.user == user_to_unfollow:
+        return HttpResponseForbidden("You cannot unfollow yourself.")
+    request.user.profile.following.remove(user_to_unfollow.profile)
+    return redirect('profile', username=username)

@@ -37,3 +37,10 @@ class FeedView(generics.ListAPIView):
         user = self.request.user
         following_users = user.following.all()
         return Post.objects.filter(author__in=following_users).order_by("-created_at")
+@login_required
+def feed(request):
+    # get followed users
+    followed_users = request.user.following.all()
+    # filter posts by followed users, order by newest first
+    posts = Post.objects.filter(author__in=followed_users).order_by("-created_at")
+    return render(request, "posts/feed.html", {"posts": posts})

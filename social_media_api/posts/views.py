@@ -1,40 +1,39 @@
-from rest_framework import viewsets, permissions
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import ListAPIView
-from rest_framework.pagination import PageNumberPagination
+# posts/views.py
+from rest_framework import viewsets, permissions, generics
+from rest_framework.response import Response
+from django.contrib.auth import get_user_model
+
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 
+User = get_user_model()
 
+# Post ViewSet
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by("-created_at")
     serializer_class = PostSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
 
+# Comment ViewSet
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all().order_by("-created_at")
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
 
-class FeedPagination(PageNumberPagination):
-    page_size = 10
-
-
-class FeedView(ListAPIView):
+# Feed View – posts from users the current user follows
+class FeedView(generics.ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
-    pagination_class = FeedPagination
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
-        # get users current user follows; if none, returns empty queryset
         following_users = user.following.all()
-        return Post.objects.filter(author__in=following_users).order_by('-created_at')
+        return Post.objects.filter(author__in=following_users).order_by("-created_at")

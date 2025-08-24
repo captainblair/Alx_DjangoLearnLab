@@ -2,13 +2,9 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 class CustomUser(AbstractUser):
-    # users that this user follows
     following = models.ManyToManyField(
-        "self",
+        'self',
         symmetrical=False,
-        related_name="followers",
+        related_name='followers',
         blank=True
     )
-
-    def __str__(self):
-        return self.username

@@ -9,7 +9,7 @@ class FollowUserView(generics.GenericAPIView):
     def post(self, request, user_id):
         user_to_follow = get_object_or_404(CustomUser, id=user_id)
         request.user.following.add(user_to_follow)
-        return Response({"message": f"You are now following {user_to_follow.username}"}, status=status.HTTP_200_OK)
+        return Response({"detail": f"You are now following {user_to_follow.username}"}, status=status.HTTP_200_OK)
 
 
 class UnfollowUserView(generics.GenericAPIView):
@@ -18,13 +18,4 @@ class UnfollowUserView(generics.GenericAPIView):
     def post(self, request, user_id):
         user_to_unfollow = get_object_or_404(CustomUser, id=user_id)
         request.user.following.remove(user_to_unfollow)
-        return Response({"message": f"You unfollowed {user_to_unfollow.username}"}, status=status.HTTP_200_OK)
-
-
-class ListUsersView(generics.GenericAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request):
-        # 👇 required by checker
-        users = CustomUser.objects.all()
-        return Response({"users": [user.username for user in users]})
+        return Response({"detail": f"You have unfollowed {user_to_unfollow.username}"}, status=status.HTTP_200_OK)

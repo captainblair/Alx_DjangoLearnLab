@@ -1,14 +1,17 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from rest_framework import generics, permissions
+from rest_framework.response import Response
 from .models import Post
-from accounts.models import Follow
+from .serializers import PostSerializer
 
-@login_required
-def feed(request):
-    # Get the list of users that the current user is following
-    following_users = Follow.objects.filter(follower=request.user).values_list('following', flat=True)
+class FeedView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
 
-    # Get posts authored by those users, ordered by most recent
-    posts = Post.objects.filter(author__in=following_users).order_by('-created_at')
+    def get(self, request):
+        # Get all the users the current user is following
+        following_users = request.user.following.all()
 
-    return render(request, 'posts/feed.html', {'posts': posts})
+        # Fetch posts from followed users
+        posts = Post.objects.filter(author__in=following_users).order_by('-created_at')
+
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)

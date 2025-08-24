@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 class CustomUser(AbstractUser):
+    # users that this user follows
     following = models.ManyToManyField(
         "self",
         symmetrical=False,
